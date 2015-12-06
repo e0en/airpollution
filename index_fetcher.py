@@ -3,6 +3,13 @@
 import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
+from enum import Enum
+
+
+class Status(Enum):
+    failed = 1
+    updating = 2
+    success = 3
 
 
 class IndexFetcher(object):
@@ -11,14 +18,19 @@ class IndexFetcher(object):
         self.refreshed_at = None
         self.data = {}
         self.index_names = None
+        self.status = Status.failed
 
     def refresh(self):
+        self.status = Status.updating
         r = requests.get(self.url)
         
         if r.ok:
             data = self.html_to_data(r.text)
             self.refreshed_at = datetime.now()
-        
+            self.status = Status.success
+        else:
+            self.status = Status.failed
+
         return self.refreshed_at
 
     def get_indices(self, district_name):

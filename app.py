@@ -5,7 +5,7 @@ from threading import Timer
 
 
 class App(object):
-    def __init__(self, url, location, interval):
+    def __init__(self, url, interval):
         self.fetcher = IndexFetcher(url)
         self.interval = interval
 
@@ -15,7 +15,7 @@ class App(object):
 
     def display(self):
         if self.fetcher.status == Status.success:
-            indices = self.fetcher.get_indices(my_location)
+            indices = self.fetcher.data
             return indices
 
     def run(self):
@@ -23,7 +23,12 @@ class App(object):
 
 
 if __name__ == "__main__":
-    url = "http://cleanair.seoul.go.kr/air_city.htm?method=measure"
-    my_location = "강남구"
+    domain = "http://openapi.seoul.go.kr:8088/"
+    service_name = "ListAirQualityByDistrictService"
+    district_code = "111261"
+    method = "json"
+    url = domain + "sample/{}/{}/1/5/{}/"
+    full_url = url.format(method, service_name, district_code)
+
     interval = 3
-    App(url, my_location, interval).run()
+    App(full_url, interval).run()

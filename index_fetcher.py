@@ -44,9 +44,3 @@ class IndexFetcher(object):
         for r in data_rows:
             x = [d.text.strip() for d in r("td")]
             self.data[x[0]] = dict(zip(self.index_names, x[1:]))
-
-
-if __name__ == "__main__":
-    f = IndexFetcher("http://cleanair.seoul.go.kr/air_city.htm?method=measure")
-    f.refresh()
-    print(f.get_indices("강남구"))

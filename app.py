@@ -11,6 +11,7 @@ class App(object):
 
     def repeat_refreshing(self):
         self.fetcher.refresh()
+        print(self.display())
         Timer(self.interval, self.repeat_refreshing).start()
 
     def display(self):

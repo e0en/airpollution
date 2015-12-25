@@ -25,7 +25,7 @@ class IndexFetcher(object):
         r = requests.get(self.url)
 
         if r.ok:
-            data = json.loads(r.text)
+            self.data = json.loads(r.text)
             self.refreshed_at = datetime.now()
             self.status = Status.success
         else:

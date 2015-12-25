@@ -1,23 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from index_fetcher import IndexFetcher, Status
+from displayer import Displayer
 from threading import Timer
 
 
 class App(object):
     def __init__(self, url, interval):
         self.fetcher = IndexFetcher(url)
+        self.displayer = Displayer()
         self.interval = interval
 
     def repeat_refreshing(self):
         self.fetcher.refresh()
-        print(self.display())
+        self.display()
         Timer(self.interval, self.repeat_refreshing).start()
 
     def display(self):
         if self.fetcher.status == Status.success:
-            indices = self.fetcher.data
-            return indices
+            self.displayer.set_data(self.fetcher.data)
 
     def run(self):
         self.repeat_refreshing()

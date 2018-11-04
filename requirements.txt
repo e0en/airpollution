@@ -1,2 +1,3 @@
 requests
 smbus
+adafruit-ssd1306
